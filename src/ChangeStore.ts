@@ -17,6 +17,7 @@ export class ChangeStore implements IChangeStore {
 
     constructor(currency: Currency) {
         this.currency = currency;
+        
     }
 
     public getCurrency (): Currency {

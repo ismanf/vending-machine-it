@@ -1,6 +1,6 @@
 import { Coin } from "./Coin";
 
-export interface IDenominationInfo {
+export interface IDenominationList {
   denomination: Denomination;
   count: number;
 }
@@ -93,6 +93,10 @@ export class Money {
       (this.oneEuroCount * Money.OneEuro.Value) / 100;
   }
 
+  public canAllocate(amount: number): boolean {
+    return this.Amount >= amount;
+  }
+
   public allocateMoneyFor(amount: number): Money {
     const oneEuroCount: number = Math.floor(Math.min(amount / Money.OneEuro.Value, this.oneEuroCount));
     amount = amount - oneEuroCount * Money.OneEuro.Value;
@@ -126,7 +130,7 @@ export class Money {
     );
   }
 
-  public getDenominationsInfo(): IDenominationInfo[] {
+  public getDenominationsInfo(): IDenominationList[] {
     return [
       {
         denomination: Money.OneCent.Value,

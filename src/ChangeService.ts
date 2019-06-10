@@ -18,9 +18,9 @@ export class ChangeService {
         const store = this.selectStoreForChange(change.currency);
         const moneyInStore = store.getMoney();
 
-        if(moneyInStore.Amount < change.amount) {
-            // throw not enough change
-        }
+       if(!moneyInStore.canAllocate(change.amount)) {
+                // throw exc
+       }
 
         return moneyInStore.allocateMoneyFor(change.amount);
     }
