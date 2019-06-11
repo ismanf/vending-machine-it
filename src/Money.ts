@@ -1,4 +1,5 @@
 import { Coin } from "./Coin";
+import { safeSubstract } from "./utils/math";
 
 export interface IDenominationList {
   denomination: Denomination;
@@ -6,13 +7,13 @@ export interface IDenominationList {
 }
 
 export enum Denomination {
-  OneCent = 1,
-  TwoCents = 2,
-  FiveCents = 3,
-  TenCents = 10,
-  TwentyCents = 20,
-  FiftyCents = 50,
-  OneEuro = 100,
+  OneCent = 0.01,
+  TwoCents = 0.02,
+  FiveCents = 0.05,
+  TenCents = 0.1,
+  TwentyCents = 0.2,
+  FiftyCents = 0.5,
+  OneEuro = 1,
 }
 
 export class Money {
@@ -84,13 +85,13 @@ export class Money {
   }
 
   public get Amount(): number {
-    return (this.oneCentCount * Money.OneCent.Value) / 100 +
-      (this.twoCentsCount * Money.TwoCents.Value) / 100 +
-      (this.fiveCentsCount * Money.FiveCents.Value) / 100 +
-      (this.tenCentsCount * Money.TenCents.Value) / 100 +
-      (this.twentyCentsCount * Money.TwentyCents.Value) / 100 +
-      (this.fiftyCentsCount * Money.FiftyCents.Value) / 100 +
-      (this.oneEuroCount * Money.OneEuro.Value) / 100;
+    return (this.oneCentCount * Money.OneCent.Value) +
+      (this.twoCentsCount * Money.TwoCents.Value) +
+      (this.fiveCentsCount * Money.FiveCents.Value) +
+      (this.tenCentsCount * Money.TenCents.Value) +
+      (this.twentyCentsCount * Money.TwentyCents.Value) +
+      (this.fiftyCentsCount * Money.FiftyCents.Value) +
+      (this.oneEuroCount * Money.OneEuro.Value);
   }
 
   public canAllocate(amount: number): boolean {
@@ -99,26 +100,27 @@ export class Money {
 
   public allocateMoneyFor(amount: number): Money {
     const oneEuroCount: number = Math.floor(Math.min(amount / Money.OneEuro.Value, this.oneEuroCount));
-    amount = amount - oneEuroCount * Money.OneEuro.Value;
+    amount = safeSubstract(amount, oneEuroCount * Money.OneEuro.Value);
+    console.log(amount);
 
     const fiftyCentsCount: number = Math.floor(Math.min(amount / Money.FiftyCents.Value, this.fiftyCentsCount));
-    amount = amount - fiftyCentsCount * Money.FiftyCents.Value;
-
+    amount =safeSubstract(amount, fiftyCentsCount * Money.FiftyCents.Value);
+    console.log(amount);
     const twentyCentsCount: number = Math.floor(Math.min(amount / Money.TwentyCents.Value, this.twentyCentsCount));
-    amount = amount - twentyCentsCount * Money.TwentyCents.Value;
-
+    amount = safeSubstract(amount, twentyCentsCount * Money.TwentyCents.Value);
+    console.log(amount);
     const tenCentsCount: number = Math.floor(Math.min(amount / Money.TenCents.Value, this.tenCentsCount));
-    amount = amount - tenCentsCount * Money.TenCents.Value;
-
+    amount = safeSubstract(amount, tenCentsCount * Money.TenCents.Value);
+    console.log(amount);
     const fiveCentsCount: number = Math.floor(Math.min(amount / Money.FiveCents.Value, this.fiveCentsCount));
-    amount = amount - fiveCentsCount * Money.FiveCents.Value;
-
+    amount = safeSubstract(amount, fiveCentsCount * Money.FiveCents.Value);
+    console.log(amount);
     const twoCentsCount: number = Math.floor(Math.min(amount / Money.TwoCents.Value, this.twoCentsCount));
-    amount = amount - twoCentsCount * Money.TwoCents.Value;
-
+    amount = safeSubstract(amount, twoCentsCount * Money.TwoCents.Value);
+    console.log(amount);
     const oneCentCount: number = Math.floor(Math.min(amount / Money.OneCent.Value, this.oneCentCount));
-    amount = amount - oneCentCount * Money.OneCent.Value;
-
+    amount = safeSubstract(amount, oneCentCount * Money.OneCent.Value);
+    console.log(amount);
     return new Money(
       oneCentCount,
       twoCentsCount,
@@ -127,6 +129,18 @@ export class Money {
       twentyCentsCount,
       fiftyCentsCount,
       oneEuroCount
+    );
+  }
+
+  public reduce(money: Money): Money {
+    return new Money(
+      this.oneCentCount - money.oneCentCount,
+      this.twoCentsCount - money.twoCentsCount,
+      this.fiveCentsCount - money.fiveCentsCount,
+      this.tenCentsCount - money.tenCentsCount,
+      this.twentyCentsCount - money.twentyCentsCount,
+      this.fiftyCentsCount - money.fiftyCentsCount,
+      this.oneEuroCount - money.oneEuroCount,
     );
   }
 

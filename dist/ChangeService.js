@@ -1,37 +1,28 @@
-import { IChangeStore, Currency } from './ChangeStore';
-import { Money } from './Money';
-
-export class ChangeInput {
-    public amount: number;
-    public currency: Currency;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class ChangeInput {
 }
-
-export class ChangeService {
-
-    private changeStores: Map<Currency,IChangeStore>;
-
-    constructor(stores: IChangeStore[]) {
+exports.ChangeInput = ChangeInput;
+class ChangeService {
+    constructor(stores) {
         this.changeStores = new Map();
         stores.forEach(store => {
             this.changeStores.set(store.getCurrency(), store);
         });
     }
-
-    public getChangeFor(change: ChangeInput): Money {
+    getChangeFor(change) {
         const store = this.selectStoreForChange(change.currency);
         const moneyInStore = store.getMoney();
-
-       if(!moneyInStore.canAllocate(change.amount)) {
+        if (!moneyInStore.canAllocate(change.amount)) {
             throw new Error('Not enough coin');
-       }
-
+        }
         const moneyAsChange = moneyInStore.allocateMoneyFor(change.amount);
         store.reduceBalance(moneyAsChange);
         return moneyAsChange;
     }
-
-    private selectStoreForChange(currency: Currency): IChangeStore {
+    selectStoreForChange(currency) {
         return this.changeStores.get(currency);
         //throw exception if not supported
     }
 }
+exports.ChangeService = ChangeService;
