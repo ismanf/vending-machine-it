@@ -1,4 +1,4 @@
-import { IChangeStore, Currency } from './ChangeStore';
+import { IChangeStore, Currency } from './Atm';
 import { Money } from './Money';
 
 export class ChangeInput {

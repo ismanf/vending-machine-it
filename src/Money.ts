@@ -1,31 +1,8 @@
 import { Coin } from "./Coin";
 import { safeSubstract } from "./utils/math";
 
-export interface IDenominationList {
-  denomination: Denomination;
-  count: number;
-}
-
-export enum Denomination {
-  OneCent = 0.01,
-  TwoCents = 0.02,
-  FiveCents = 0.05,
-  TenCents = 0.1,
-  TwentyCents = 0.2,
-  FiftyCents = 0.5,
-  OneEuro = 1,
-}
 
 export class Money {
-
-  public static OneCent: Coin = new Coin(Denomination.OneCent);
-  public static TwoCents: Coin = new Coin(Denomination.TwoCents);
-  public static FiveCents: Coin = new Coin(Denomination.FiveCents);
-  public static TenCents: Coin = new Coin(Denomination.TenCents);
-  public static TwentyCents: Coin = new Coin(Denomination.TwentyCents);
-  public static FiftyCents: Coin = new Coin(Denomination.FiftyCents);
-  public static OneEuro: Coin = new Coin(Denomination.OneEuro);
-
 
   private oneCentCount: number;
   private twoCentsCount: number;
@@ -85,13 +62,13 @@ export class Money {
   }
 
   public get Amount(): number {
-    return (this.oneCentCount * Money.OneCent.Value) +
-      (this.twoCentsCount * Money.TwoCents.Value) +
-      (this.fiveCentsCount * Money.FiveCents.Value) +
-      (this.tenCentsCount * Money.TenCents.Value) +
-      (this.twentyCentsCount * Money.TwentyCents.Value) +
-      (this.fiftyCentsCount * Money.FiftyCents.Value) +
-      (this.oneEuroCount * Money.OneEuro.Value);
+    return (this.oneCentCount * Coin.OneCent.Value) +
+      (this.twoCentsCount * Coin.TwoCents.Value) +
+      (this.fiveCentsCount * Coin.FiveCents.Value) +
+      (this.tenCentsCount * Coin.TenCents.Value) +
+      (this.twentyCentsCount * Coin.TwentyCents.Value) +
+      (this.fiftyCentsCount * Coin.FiftyCents.Value) +
+      (this.oneEuroCount * Coin.OneEuro.Value);
   }
 
   public canAllocate(amount: number): boolean {
@@ -99,28 +76,27 @@ export class Money {
   }
 
   public allocateMoneyFor(amount: number): Money {
-    const oneEuroCount: number = Math.floor(Math.min(amount / Money.OneEuro.Value, this.oneEuroCount));
-    amount = safeSubstract(amount, oneEuroCount * Money.OneEuro.Value);
-    console.log(amount);
+    const oneEuroCount: number = Math.floor(Math.min(amount / Coin.OneEuro.Value, this.oneEuroCount));
+    amount = safeSubstract(amount, oneEuroCount * Coin.OneEuro.Value);
 
-    const fiftyCentsCount: number = Math.floor(Math.min(amount / Money.FiftyCents.Value, this.fiftyCentsCount));
-    amount =safeSubstract(amount, fiftyCentsCount * Money.FiftyCents.Value);
-    console.log(amount);
-    const twentyCentsCount: number = Math.floor(Math.min(amount / Money.TwentyCents.Value, this.twentyCentsCount));
-    amount = safeSubstract(amount, twentyCentsCount * Money.TwentyCents.Value);
-    console.log(amount);
-    const tenCentsCount: number = Math.floor(Math.min(amount / Money.TenCents.Value, this.tenCentsCount));
-    amount = safeSubstract(amount, tenCentsCount * Money.TenCents.Value);
-    console.log(amount);
-    const fiveCentsCount: number = Math.floor(Math.min(amount / Money.FiveCents.Value, this.fiveCentsCount));
-    amount = safeSubstract(amount, fiveCentsCount * Money.FiveCents.Value);
-    console.log(amount);
-    const twoCentsCount: number = Math.floor(Math.min(amount / Money.TwoCents.Value, this.twoCentsCount));
-    amount = safeSubstract(amount, twoCentsCount * Money.TwoCents.Value);
-    console.log(amount);
-    const oneCentCount: number = Math.floor(Math.min(amount / Money.OneCent.Value, this.oneCentCount));
-    amount = safeSubstract(amount, oneCentCount * Money.OneCent.Value);
-    console.log(amount);
+    const fiftyCentsCount: number = Math.floor(Math.min(amount / Coin.FiftyCents.Value, this.fiftyCentsCount));
+    amount =safeSubstract(amount, fiftyCentsCount * Coin.FiftyCents.Value);
+
+    const twentyCentsCount: number = Math.floor(Math.min(amount / Coin.TwentyCents.Value, this.twentyCentsCount));
+    amount = safeSubstract(amount, twentyCentsCount * Coin.TwentyCents.Value);
+
+    const tenCentsCount: number = Math.floor(Math.min(amount / Coin.TenCents.Value, this.tenCentsCount));
+    amount = safeSubstract(amount, tenCentsCount * Coin.TenCents.Value);
+
+    const fiveCentsCount: number = Math.floor(Math.min(amount / Coin.FiveCents.Value, this.fiveCentsCount));
+    amount = safeSubstract(amount, fiveCentsCount * Coin.FiveCents.Value);
+
+    const twoCentsCount: number = Math.floor(Math.min(amount / Coin.TwoCents.Value, this.twoCentsCount));
+    amount = safeSubstract(amount, twoCentsCount * Coin.TwoCents.Value);
+
+    const oneCentCount: number = Math.floor(Math.min(amount / Coin.OneCent.Value, this.oneCentCount));
+    amount = safeSubstract(amount, oneCentCount * Coin.OneCent.Value);
+
     return new Money(
       oneCentCount,
       twoCentsCount,
@@ -144,10 +120,10 @@ export class Money {
     );
   }
 
-  public getDenominationsInfo(): IDenominationList[] {
+  public getDenominationsInfo() {
     return [
       {
-        denomination: Money.OneCent.Value,
+        denomination: Coin.OneCent.Value,
         count: this.oneCentCount
       }
     ];

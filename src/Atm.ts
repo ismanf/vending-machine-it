@@ -1,22 +1,17 @@
-import { Money, IDenominationList, Denomination } from "./Money";
+import { Money } from "./Money";
 
-export interface IChangeStore {
-    getCurrency (): Currency;
-    getMoney (): Money;
-    reduceBalance(moneyToReduce: Money): void;
-}
 
 export enum Currency {
     EUR = 978,
     USD = 840,
 }
 
-export class ChangeStore implements IChangeStore {
+export class CoinSlot {
     
     private readonly currency: Currency;
     private money: Money;
 
-    constructor(currency: Currency, denominations: IDenominationList[]) {
+    constructor() {
         this.currency = currency;
         const oneCentCount = denominations.find(d => d.denomination === Denomination.OneCent).count;
         const twoCentsCount = denominations.find(d => d.denomination === Denomination.TwoCents).count;

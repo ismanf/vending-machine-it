@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/ismayilmalik/vending-machine-it#readme",
   "devDependencies": {
-    "aws-sdk": "^2.472.0",
+    "@types/aws-sdk": "^2.7.0",
     "copyfiles": "^2.1.0",
     "nps-utils": "^1.7.0",
     "serverless": "^1.44.1",
@@ -28,6 +28,7 @@
     "typescript": "^3.5.1"
   },
   "dependencies": {
+    "aws-sdk": "^2.472.0",
     "event-dispatch": "^0.4.1",
     "nps": "^5.9.5",
     "typedi": "^0.8.0"

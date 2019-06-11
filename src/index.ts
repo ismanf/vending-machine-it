@@ -1,5 +1,5 @@
 import { ChangeService } from './ChangeService';
-import { Currency, ChangeStore } from './ChangeStore';
+import { Currency, ChangeStore } from './Atm';
 import { initialDenominations } from './config';
 
 const stores = initialDenominations.map(id => {
