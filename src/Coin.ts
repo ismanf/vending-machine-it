@@ -1,11 +1,11 @@
 export class Coin {
-    public static OneCent: Coin = new Coin('OneCent', 0.01);
-    public static TwoCents: Coin = new Coin('TwoCents', 0.02);
-    public static FiveCents: Coin = new Coin('FiveCents', 0.05);
-    public static TenCents: Coin = new Coin('TenCents', 0.10);
-    public static TwentyCents: Coin = new Coin('TwentyCents', 0.20);
-    public static FiftyCents: Coin = new Coin('FiftyCents', 0.50);
-    public static OneEuro: Coin = new Coin('OneEuro', 1.00);
+    public static OneCoin: Coin = new Coin('OneCoin', 0.01);
+    public static TwoCoins: Coin = new Coin('TwoCoins', 0.02);
+    public static FiveCoins: Coin = new Coin('FiveCoins', 0.05);
+    public static TenCoins: Coin = new Coin('TenCoins', 0.10);
+    public static TwentyCoins: Coin = new Coin('TwentyCoins', 0.20);
+    public static FiftyCoins: Coin = new Coin('FiftyCoins', 0.50);
+    public static HundredCoins: Coin = new Coin('HundredCoins', 1.00);
 
     private readonly name: string;
     private readonly value: number

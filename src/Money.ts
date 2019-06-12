@@ -4,128 +4,139 @@ import { safeSubstract } from "./utils/math";
 
 export class Money {
 
-  private oneCentCount: number;
-  private twoCentsCount: number;
-  private fiveCentsCount: number;
-  private tenCentsCount: number;
-  private twentyCentsCount: number;
-  private fiftyCentsCount: number;
-  private oneEuroCount: number;
+  private oneCoinCount: number;
+  private twoCoinsCount: number;
+  private fiveCoinsCount: number;
+  private tenCoinsCount: number;
+  private twentyCoinsCount: number;
+  private fiftyCoinsCount: number;
+  private hundredCoinsCount: number;
 
   constructor(
-    oneCentCount,
-    twoCentsCount,
-    fiveCentsCount,
-    tenCentsCount,
-    twentyCentsCount,
-    fiftyCentsCount,
-    oneEuroCount: number
+    oneCoinCount,
+    twoCoinsCount,
+    fiveCoinsCount,
+    tenCoinsCount,
+    twentyCoinsCount,
+    fiftyCoinsCount,
+    hundredCoinsCount: number
   ) {
 
     // validate and throw error
 
-    this.oneCentCount = oneCentCount;
-    this.twoCentsCount = twoCentsCount;
-    this.fiveCentsCount = fiveCentsCount;
-    this.tenCentsCount = tenCentsCount;
-    this.twentyCentsCount = twentyCentsCount;
-    this.fiftyCentsCount = fiftyCentsCount;
-    this.oneEuroCount = oneEuroCount;
+    this.oneCoinCount = oneCoinCount;
+    this.twoCoinsCount = twoCoinsCount;
+    this.fiveCoinsCount = fiveCoinsCount;
+    this.tenCoinsCount = tenCoinsCount;
+    this.twentyCoinsCount = twentyCoinsCount;
+    this.fiftyCoinsCount = fiftyCoinsCount;
+    this.hundredCoinsCount = hundredCoinsCount;
   }
 
-  public get OneCentCount(): number {
-    return this.oneCentCount;
+  public get OneCoinCount(): number {
+    return this.oneCoinCount;
   }
 
-  public get TwoCentsCount(): number {
-    return this.twoCentsCount;
+  public get TwoCoinsCount(): number {
+    return this.twoCoinsCount;
   }
 
-  public get FiveCentsCount(): number {
-    return this.fiveCentsCount;
+  public get FiveCoinsCount(): number {
+    return this.fiveCoinsCount;
   }
 
-  public get TenCentsCount(): number {
-    return this.tenCentsCount;
+  public get TenCoinsCount(): number {
+    return this.tenCoinsCount;
   }
 
-  public get TwentyCentsCount(): number {
-    return this.twentyCentsCount;
+  public get TwentyCoinsCount(): number {
+    return this.twentyCoinsCount;
   }
 
-  public get FiftyCentsCount(): number {
-    return this.fiftyCentsCount;
+  public get FiftyCoinsCount(): number {
+    return this.fiftyCoinsCount;
   }
 
-  public get OneEuroCount(): number {
-    return this.oneEuroCount;
+  public get HundredCoinsCount(): number {
+    return this.hundredCoinsCount;
   }
 
   public get Amount(): number {
-    return (this.oneCentCount * Coin.OneCent.Value) +
-      (this.twoCentsCount * Coin.TwoCents.Value) +
-      (this.fiveCentsCount * Coin.FiveCents.Value) +
-      (this.tenCentsCount * Coin.TenCents.Value) +
-      (this.twentyCentsCount * Coin.TwentyCents.Value) +
-      (this.fiftyCentsCount * Coin.FiftyCents.Value) +
-      (this.oneEuroCount * Coin.OneEuro.Value);
+    return (this.oneCoinCount * Coin.OneCoin.Value) +
+      (this.twoCoinsCount * Coin.TwoCoins.Value) +
+      (this.fiveCoinsCount * Coin.FiveCoins.Value) +
+      (this.tenCoinsCount * Coin.TenCoins.Value) +
+      (this.twentyCoinsCount * Coin.TwentyCoins.Value) +
+      (this.fiftyCoinsCount * Coin.FiftyCoins.Value) +
+      (this.hundredCoinsCount * Coin.HundredCoins.Value);
   }
 
-  public canAllocate(amount: number): boolean {
+  public Allocate(amount: number): Money {
+    if(!this.CanAllocate(amount)) {
+      throw new Error('Cant allocate')
+    }
+
+    return this.allocate(amount);
+  }
+
+  private CanAllocate(amount: number): boolean {
     return this.Amount >= amount;
   }
 
-  public allocateMoneyFor(amount: number): Money {
-    const oneEuroCount: number = Math.floor(Math.min(amount / Coin.OneEuro.Value, this.oneEuroCount));
-    amount = safeSubstract(amount, oneEuroCount * Coin.OneEuro.Value);
+  private allocate(amount: number): Money {
+    const hundredCoinsCount: number = Math.floor(Math.min(amount / Coin.HundredCoins.Value, this.hundredCoinsCount));
+    amount = safeSubstract(amount, hundredCoinsCount * Coin.HundredCoins.Value);
 
-    const fiftyCentsCount: number = Math.floor(Math.min(amount / Coin.FiftyCents.Value, this.fiftyCentsCount));
-    amount =safeSubstract(amount, fiftyCentsCount * Coin.FiftyCents.Value);
+    const fiftyCoinsCount: number = Math.floor(Math.min(amount / Coin.FiftyCoins.Value, this.fiftyCoinsCount));
+    amount = safeSubstract(amount, fiftyCoinsCount * Coin.FiftyCoins.Value);
 
-    const twentyCentsCount: number = Math.floor(Math.min(amount / Coin.TwentyCents.Value, this.twentyCentsCount));
-    amount = safeSubstract(amount, twentyCentsCount * Coin.TwentyCents.Value);
+    const twentyCoinsCount: number = Math.floor(Math.min(amount / Coin.TwentyCoins.Value, this.twentyCoinsCount));
+    amount = safeSubstract(amount, twentyCoinsCount * Coin.TwentyCoins.Value);
 
-    const tenCentsCount: number = Math.floor(Math.min(amount / Coin.TenCents.Value, this.tenCentsCount));
-    amount = safeSubstract(amount, tenCentsCount * Coin.TenCents.Value);
+    const tenCoinsCount: number = Math.floor(Math.min(amount / Coin.TenCoins.Value, this.tenCoinsCount));
+    amount = safeSubstract(amount, tenCoinsCount * Coin.TenCoins.Value);
 
-    const fiveCentsCount: number = Math.floor(Math.min(amount / Coin.FiveCents.Value, this.fiveCentsCount));
-    amount = safeSubstract(amount, fiveCentsCount * Coin.FiveCents.Value);
+    const fiveCoinsCount: number = Math.floor(Math.min(amount / Coin.FiveCoins.Value, this.fiveCoinsCount));
+    amount = safeSubstract(amount, fiveCoinsCount * Coin.FiveCoins.Value);
 
-    const twoCentsCount: number = Math.floor(Math.min(amount / Coin.TwoCents.Value, this.twoCentsCount));
-    amount = safeSubstract(amount, twoCentsCount * Coin.TwoCents.Value);
+    const twoCoinsCount: number = Math.floor(Math.min(amount / Coin.TwoCoins.Value, this.twoCoinsCount));
+    amount = safeSubstract(amount, twoCoinsCount * Coin.TwoCoins.Value);
 
-    const oneCentCount: number = Math.floor(Math.min(amount / Coin.OneCent.Value, this.oneCentCount));
-    amount = safeSubstract(amount, oneCentCount * Coin.OneCent.Value);
+    const oneCoinCount: number = Math.floor(Math.min(amount / Coin.OneCoin.Value, this.oneCoinCount));
+    amount = safeSubstract(amount, oneCoinCount * Coin.OneCoin.Value);
 
     return new Money(
-      oneCentCount,
-      twoCentsCount,
-      fiveCentsCount,
-      tenCentsCount,
-      twentyCentsCount,
-      fiftyCentsCount,
-      oneEuroCount
+      oneCoinCount,
+      twoCoinsCount,
+      fiveCoinsCount,
+      tenCoinsCount,
+      twentyCoinsCount,
+      fiftyCoinsCount,
+      hundredCoinsCount
     );
   }
 
-  public reduce(money: Money): Money {
+  public subtract(money: Money) {
     return new Money(
-      this.oneCentCount - money.oneCentCount,
-      this.twoCentsCount - money.twoCentsCount,
-      this.fiveCentsCount - money.fiveCentsCount,
-      this.tenCentsCount - money.tenCentsCount,
-      this.twentyCentsCount - money.twentyCentsCount,
-      this.fiftyCentsCount - money.fiftyCentsCount,
-      this.oneEuroCount - money.oneEuroCount,
+      this.oneCoinCount - money.OneCoinCount,
+      this.twoCoinsCount - money.TwoCoinsCount,
+      this.fiveCoinsCount - money.FiveCoinsCount,
+      this.tenCoinsCount - money.TenCoinsCount,
+      this.twentyCoinsCount - money.TwentyCoinsCount,
+      this.fiftyCoinsCount - money.FiftyCoinsCount,
+      this.hundredCoinsCount - money.HundredCoinsCount,
     );
   }
 
-  public getDenominationsInfo() {
-    return [
-      {
-        denomination: Coin.OneCent.Value,
-        count: this.oneCentCount
-      }
-    ];
+  public add(money: Money) {
+    return new Money(
+      this.oneCoinCount + money.OneCoinCount,
+      this.twoCoinsCount + money.TwoCoinsCount,
+      this.fiveCoinsCount + money.FiveCoinsCount,
+      this.tenCoinsCount + money.TenCoinsCount,
+      this.twentyCoinsCount + money.TwentyCoinsCount,
+      this.fiftyCoinsCount + money.FiftyCoinsCount,
+      this.hundredCoinsCount + money.HundredCoinsCount,
+    );
   }
 }
