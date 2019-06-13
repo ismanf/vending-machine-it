@@ -2,21 +2,12 @@ const { series, rimraf } = require("nps-utils");
 
 module.exports = {
     scripts: {
-        default: "nps start",
-
-        /**
-         *  Starts script
-         */
-        start: {
-            script: "node -r dotenv/config dist/main.js dotenv_config_path=.env.local",
-            description: "Runs application server"
-        },
 
         /**
          *  Build script
          */
         build: {
-            script: series("nps clean", "nps compile"),
+            script: series("nps clean", "nps compile", "nps copy"),
             description: "Builds application into the dist directory"
         },
 
@@ -35,6 +26,38 @@ module.exports = {
         clean: {
             script: rimraf("./dist"),
             description: "Deletes the ./dist folder"
+        },
+
+        /**
+         *  Copy static files to dist folder
+         */
+        copy: {
+            default: {
+                script: series(
+                    `nps copy.handlersCongif`,
+                ),
+                hiddenFromHelp: true
+            },
+            handlersCongif: {
+                script: copy("./src/api/handlers.serverless.yml", "./dist"),
+                hiddenFromHelp: true
+            }
+        },
+
+        /**
+         *  Package serverless
+         */
+        package: {
+            script: "serverless package",
+            description: "Packages serverless files"
+        },
+
+        /**
+         *  Deploy serverless
+         */
+        deploy: {
+            script: "serverless deploy --aws-profile serverless",
+            description: "Deploys serverless files"
         }
     }
 };

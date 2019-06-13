@@ -16,10 +16,16 @@
         }
       }
     },
-    "GetLogGroup": {
+    "GetBalanceLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/change-service-dev-get"
+        "LogGroupName": "/aws/lambda/change-service-dev-getBalance"
+      }
+    },
+    "CalculateChangeLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/change-service-dev-calculateChange"
       }
     },
     "IamRoleLambdaExecution": {
@@ -63,7 +69,10 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/change-service-dev-get:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/change-service-dev-getBalance:*"
+                    },
+                    {
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/change-service-dev-calculateChange:*"
                     }
                   ]
                 },
@@ -74,7 +83,10 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/change-service-dev-get:*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/change-service-dev-getBalance:*:*"
+                    },
+                    {
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/change-service-dev-calculateChange:*:*"
                     }
                   ]
                 }
@@ -98,17 +110,17 @@
         }
       }
     },
-    "GetLambdaFunction": {
+    "GetBalanceLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/change-service/dev/1560203084866-2019-06-10T21:44:44.866Z/change-service.zip"
+          "S3Key": "serverless/change-service/dev/1560380561541-2019-06-12T23:02:41.541Z/change-service.zip"
         },
-        "FunctionName": "change-service-dev-get",
-        "Handler": "dist/handlers/get.handler",
+        "FunctionName": "change-service-dev-getBalance",
+        "Handler": "dist/api/index.getBalance",
         "MemorySize": 1024,
         "Role": {
           "Fn::GetAtt": [
@@ -120,18 +132,54 @@
         "Timeout": 6
       },
       "DependsOn": [
-        "GetLogGroup",
+        "GetBalanceLogGroup",
         "IamRoleLambdaExecution"
       ]
     },
-    "GetLambdaVersionjKzzZoYyJRQvz5wcoaL9BxnWBW78iEewgaczssel4": {
+    "GetBalanceLambdaVersionANpphxjPFnVB2J8kXembSwrps6s78ZREKIpyc00s": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "GetLambdaFunction"
+          "Ref": "GetBalanceLambdaFunction"
         },
-        "CodeSha256": "Opf/oceHZGJZIw6t1EpDs5jtQXxhTyFwH/0RJK6Oja4="
+        "CodeSha256": "fSn+XfxcLX8PNDFr7BkJhd/3o1gvUn+px30EnaX8BPI="
+      }
+    },
+    "CalculateChangeLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/change-service/dev/1560380561541-2019-06-12T23:02:41.541Z/change-service.zip"
+        },
+        "FunctionName": "change-service-dev-calculateChange",
+        "Handler": "dist/api/index.calculateChange",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs8.10",
+        "Timeout": 6
+      },
+      "DependsOn": [
+        "CalculateChangeLogGroup",
+        "IamRoleLambdaExecution"
+      ]
+    },
+    "CalculateChangeLambdaVersionaNONSE5RA29WwHjUfbo1u1YBG3qftqsxcQqMiyYxos": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "CalculateChangeLambdaFunction"
+        },
+        "CodeSha256": "fSn+XfxcLX8PNDFr7BkJhd/3o1gvUn+px30EnaX8BPI="
       }
     },
     "ApiGatewayRestApi": {
@@ -145,7 +193,7 @@
         }
       }
     },
-    "ApiGatewayResourceHelloo": {
+    "ApiGatewayResourceBalance": {
       "Type": "AWS::ApiGateway::Resource",
       "Properties": {
         "ParentId": {
@@ -154,19 +202,34 @@
             "RootResourceId"
           ]
         },
-        "PathPart": "helloo",
+        "PathPart": "balance",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
       }
     },
-    "ApiGatewayMethodHellooGet": {
+    "ApiGatewayResourceCalculateDashchange": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "calculate-change",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodBalanceGet": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "HttpMethod": "GET",
         "RequestParameters": {},
         "ResourceId": {
-          "Ref": "ApiGatewayResourceHelloo"
+          "Ref": "ApiGatewayResourceBalance"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -191,7 +254,7 @@
                 ":lambda:path/2015-03-31/functions/",
                 {
                   "Fn::GetAtt": [
-                    "GetLambdaFunction",
+                    "GetBalanceLambdaFunction",
                     "Arn"
                   ]
                 },
@@ -203,7 +266,50 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1560203075819": {
+    "ApiGatewayMethodCalculateDashchangePost": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceCalculateDashchange"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "CalculateChangeLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
+    "ApiGatewayDeployment1560380544355": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -212,15 +318,53 @@
         "StageName": "dev"
       },
       "DependsOn": [
-        "ApiGatewayMethodHellooGet"
+        "ApiGatewayMethodBalanceGet",
+        "ApiGatewayMethodCalculateDashchangePost"
       ]
     },
-    "GetLambdaPermissionApiGateway": {
+    "GetBalanceLambdaPermissionApiGateway": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "FunctionName": {
           "Fn::GetAtt": [
-            "GetLambdaFunction",
+            "GetBalanceLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "CalculateChangeLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "CalculateChangeLambdaFunction",
             "Arn"
           ]
         },
@@ -259,10 +403,16 @@
         "Ref": "ServerlessDeploymentBucket"
       }
     },
-    "GetLambdaFunctionQualifiedArn": {
+    "GetBalanceLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetLambdaVersionjKzzZoYyJRQvz5wcoaL9BxnWBW78iEewgaczssel4"
+        "Ref": "GetBalanceLambdaVersionANpphxjPFnVB2J8kXembSwrps6s78ZREKIpyc00s"
+      }
+    },
+    "CalculateChangeLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "CalculateChangeLambdaVersionaNONSE5RA29WwHjUfbo1u1YBG3qftqsxcQqMiyYxos"
       }
     },
     "ServiceEndpoint": {

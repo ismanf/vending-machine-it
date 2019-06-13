@@ -1,4 +1,0 @@
-get:
-  handler: dist/handlers/get.handler
-  events:
-    - http: get /helloo

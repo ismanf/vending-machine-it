@@ -1,0 +1,13 @@
+td {
+    font-size: 34px;
+    text-align: center;
+}
+
+.balance-header {
+    padding: 20px 0;
+}
+
+.balance-header h3 {
+    margin-top: 12px;
+    margin-left: 3px;
+}
