@@ -7,10 +7,19 @@ module.exports = {
          *  Build script
          */
         build: {
-            script: series("nps clean", "nps compile"),
+            script: series(
+                "nps clean",
+                "nps lint",
+                "nps compile"
+            ),
             description: "Builds application into the dist directory"
         },
 
+
+        lint: {
+            script: "tslint --config tslint.json --project tsconfig.json",
+            description: "Checking linting errors"
+        },
 
         /**
          *  Compile script
@@ -18,6 +27,13 @@ module.exports = {
         compile: {
             script: "tsc",
             hiddenFromHelp: true
+        },
+
+        /**
+         *  Run tests
+         */
+        test: {
+            script: "jest",
         },
 
         /**
@@ -48,10 +64,10 @@ module.exports = {
          *  Invoke lambdas localy
          */
         getBalance: {
-            script: "serverless invoke local -f getBalance -p mock.json"
+            script: "serverless invoke local -f getBalance -p serverless.mock.json"
         },
         calculateChange: {
-            script: "serverless invoke local -f calculateChange -p mock.json"
+            script: "serverless invoke local -f calculateChange -p serverless.mock.json"
         }
     }
 };

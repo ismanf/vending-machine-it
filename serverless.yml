@@ -26,11 +26,11 @@ package:
     - '!src/**/*.serverless.yml'
 
 functions:
-  getBalance:
-    handler: dist/api/index.getBalance
+  getInitialBalance:
+    handler: dist/api/index.getInitialBalance
     events:
       - http: 
-          path: /balance
+          path: /initial-balance
           method: get
           cors:
             origin: '*'

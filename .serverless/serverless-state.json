@@ -30,10 +30,10 @@
               }
             }
           },
-          "GetBalanceLogGroup": {
+          "GetInitialBalanceLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/vendorm-machine-dev-getBalance"
+              "LogGroupName": "/aws/lambda/vendorm-machine-dev-getInitialBalance"
             }
           },
           "CalculateChangeLogGroup": {
@@ -83,7 +83,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vendorm-machine-dev-getBalance:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vendorm-machine-dev-getInitialBalance:*"
                           },
                           {
                             "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vendorm-machine-dev-calculateChange:*"
@@ -97,7 +97,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vendorm-machine-dev-getBalance:*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vendorm-machine-dev-getInitialBalance:*:*"
                           },
                           {
                             "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vendorm-machine-dev-calculateChange:*:*"
@@ -124,17 +124,17 @@
               }
             }
           },
-          "GetBalanceLambdaFunction": {
+          "GetInitialBalanceLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
               "Code": {
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/vendorm-machine/dev/1560422071849-2019-06-13T10:34:31.849Z/vendorm-machine.zip"
+                "S3Key": "serverless/vendorm-machine/dev/1560458261193-2019-06-13T20:37:41.193Z/vendorm-machine.zip"
               },
-              "FunctionName": "vendorm-machine-dev-getBalance",
-              "Handler": "dist/api/index.getBalance",
+              "FunctionName": "vendorm-machine-dev-getInitialBalance",
+              "Handler": "dist/api/index.getInitialBalance",
               "MemorySize": 1024,
               "Role": {
                 "Fn::GetAtt": [
@@ -146,18 +146,18 @@
               "Timeout": 6
             },
             "DependsOn": [
-              "GetBalanceLogGroup",
+              "GetInitialBalanceLogGroup",
               "IamRoleLambdaExecution"
             ]
           },
-          "GetBalanceLambdaVersionsPjI7y3m3lK1a8QQLnmzNTZczk77R3EPBKL6KH7Vg": {
+          "GetInitialBalanceLambdaVersioncWExuz6txmALpcUJM9ZAK0JfcUjKntVzT91aKPVMys": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
-                "Ref": "GetBalanceLambdaFunction"
+                "Ref": "GetInitialBalanceLambdaFunction"
               },
-              "CodeSha256": "j17O7fQo/yfz2t1FDRdJ4pw6koQEwyt338sWURlvwLQ="
+              "CodeSha256": "IQphagnyM2l13UtZIbp4vCReZX/EW0uYGX1c0hl0DqM="
             }
           },
           "CalculateChangeLambdaFunction": {
@@ -167,7 +167,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/vendorm-machine/dev/1560422071849-2019-06-13T10:34:31.849Z/vendorm-machine.zip"
+                "S3Key": "serverless/vendorm-machine/dev/1560458261193-2019-06-13T20:37:41.193Z/vendorm-machine.zip"
               },
               "FunctionName": "vendorm-machine-dev-calculateChange",
               "Handler": "dist/api/index.calculateChange",
@@ -186,14 +186,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "CalculateChangeLambdaVersionCQsdnHC3DuxoWOj9UiraZFjeJX02xVQ2U4TPMvjXRts": {
+          "CalculateChangeLambdaVersiondUA4v0lECElkmwvn0XUh7tzqFTwaMztMb3haWKa4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CalculateChangeLambdaFunction"
               },
-              "CodeSha256": "j17O7fQo/yfz2t1FDRdJ4pw6koQEwyt338sWURlvwLQ="
+              "CodeSha256": "IQphagnyM2l13UtZIbp4vCReZX/EW0uYGX1c0hl0DqM="
             }
           },
           "ApiGatewayRestApi": {
@@ -207,7 +207,7 @@
               }
             }
           },
-          "ApiGatewayResourceBalance": {
+          "ApiGatewayResourceInitialDashbalance": {
             "Type": "AWS::ApiGateway::Resource",
             "Properties": {
               "ParentId": {
@@ -216,7 +216,7 @@
                   "RootResourceId"
                 ]
               },
-              "PathPart": "balance",
+              "PathPart": "initial-balance",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -237,7 +237,7 @@
               }
             }
           },
-          "ApiGatewayMethodBalanceOptions": {
+          "ApiGatewayMethodInitialDashbalanceOptions": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
               "AuthorizationType": "NONE",
@@ -277,7 +277,7 @@
                 ]
               },
               "ResourceId": {
-                "Ref": "ApiGatewayResourceBalance"
+                "Ref": "ApiGatewayResourceInitialDashbalance"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -331,13 +331,13 @@
               }
             }
           },
-          "ApiGatewayMethodBalanceGet": {
+          "ApiGatewayMethodInitialDashbalanceGet": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
               "HttpMethod": "GET",
               "RequestParameters": {},
               "ResourceId": {
-                "Ref": "ApiGatewayResourceBalance"
+                "Ref": "ApiGatewayResourceInitialDashbalance"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -362,7 +362,7 @@
                       ":lambda:path/2015-03-31/functions/",
                       {
                         "Fn::GetAtt": [
-                          "GetBalanceLambdaFunction",
+                          "GetInitialBalanceLambdaFunction",
                           "Arn"
                         ]
                       },
@@ -417,7 +417,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1560422052553": {
+          "ApiGatewayDeployment1560458245956": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -426,18 +426,18 @@
               "StageName": "dev"
             },
             "DependsOn": [
-              "ApiGatewayMethodBalanceOptions",
+              "ApiGatewayMethodInitialDashbalanceOptions",
               "ApiGatewayMethodCalculateDashchangeOptions",
-              "ApiGatewayMethodBalanceGet",
+              "ApiGatewayMethodInitialDashbalanceGet",
               "ApiGatewayMethodCalculateDashchangePost"
             ]
           },
-          "GetBalanceLambdaPermissionApiGateway": {
+          "GetInitialBalanceLambdaPermissionApiGateway": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
               "FunctionName": {
                 "Fn::GetAtt": [
-                  "GetBalanceLambdaFunction",
+                  "GetInitialBalanceLambdaFunction",
                   "Arn"
                 ]
               },
@@ -513,16 +513,16 @@
               "Ref": "ServerlessDeploymentBucket"
             }
           },
-          "GetBalanceLambdaFunctionQualifiedArn": {
+          "GetInitialBalanceLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetBalanceLambdaVersionsPjI7y3m3lK1a8QQLnmzNTZczk77R3EPBKL6KH7Vg"
+              "Ref": "GetInitialBalanceLambdaVersioncWExuz6txmALpcUJM9ZAK0JfcUjKntVzT91aKPVMys"
             }
           },
           "CalculateChangeLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CalculateChangeLambdaVersionCQsdnHC3DuxoWOj9UiraZFjeJX02xVQ2U4TPMvjXRts"
+              "Ref": "CalculateChangeLambdaVersiondUA4v0lECElkmwvn0XUh7tzqFTwaMztMb3haWKa4"
             }
           },
           "ServiceEndpoint": {
@@ -589,12 +589,12 @@
     ],
     "pluginsData": {},
     "functions": {
-      "getBalance": {
-        "handler": "dist/api/index.getBalance",
+      "getInitialBalance": {
+        "handler": "dist/api/index.getInitialBalance",
         "events": [
           {
             "http": {
-              "path": "balance",
+              "path": "initial-balance",
               "method": "get",
               "cors": {
                 "origin": "*",
@@ -616,7 +616,7 @@
             }
           }
         ],
-        "name": "vendorm-machine-dev-getBalance",
+        "name": "vendorm-machine-dev-getInitialBalance",
         "package": {},
         "memory": 1024,
         "timeout": 6,
@@ -659,10 +659,10 @@
       }
     },
     "layers": {},
-    "artifact": "/Users/ismail.niftaliev/Documents/github/vending-machine-it/.serverless/vendorm-machine.zip"
+    "artifact": "/Users/ismayilmalik/Documents/github/vending-machine-it/.serverless/vendorm-machine.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/vendorm-machine/dev/1560422071849-2019-06-13T10:34:31.849Z",
+    "artifactDirectoryName": "serverless/vendorm-machine/dev/1560458261193-2019-06-13T20:37:41.193Z",
     "artifact": "vendorm-machine.zip"
   }
 }

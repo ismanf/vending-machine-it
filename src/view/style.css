@@ -1,3 +1,18 @@
+.balance-content {
+    margin-top: 10%;
+}
 #responseText {
     width: 100%;
+}
+
+.loader {
+    position: absolute;
+    top: 35%;
+    left: 45%;
+}
+
+.loader img {
+    width: 70px;
+    height: 70px;
+    display: none;
 }

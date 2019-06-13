@@ -3,8 +3,19 @@
     "extends": [
         "tslint:recommended"
     ],
+    "linterOptions": {
+        "exclude": [
+            "src/view/*"
+        ]
+    },
     "jsRules": {},
     "rules": {
+        "arrow-parens": false,
+        "max-classes-per-file": false,
+        "quotemark": false,
+        "trailing-comma": false,
+        "max-line-length": false,
+        "no-console": false
     },
     "rulesDirectory": []
 }

@@ -1,5 +1,5 @@
 export const events = {
-    balance: {
-        changed: 'onBalanceChanged'
-    }
-}
+  balance: {
+    changed: 'onBalanceChanged'
+  }
+};

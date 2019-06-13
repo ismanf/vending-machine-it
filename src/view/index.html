@@ -13,6 +13,9 @@
 
 <body>
     <div class="container">
+        <div class="loader">
+            <img id="loaderGif" src="loader.gif" />
+        </div>
         <div class="balance-content row">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" id="changeAmount" placeholder="Cache amount">
@@ -25,6 +28,21 @@
         </div>
         <div class="row">
             <textarea rows="10" id="responseText">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </textarea>
         </div>
     </div>
@@ -45,35 +63,70 @@
                     }).then(response => response.json())
             }
 
+            const API_URL = 'https://jm502ytdr8.execute-api.us-west-2.amazonaws.com/dev';
             const btnSend = document.getElementById('btnSend');
             const btnGetBalance = document.getElementById('btnGetBalance');
             const btnReset = document.getElementById('btnReset');
             const changeAmountInput = document.getElementById('changeAmount');
             const responseTextarea = document.getElementById('responseText');
+            const loaderGif = document.getElementById('loaderGif');
 
-            btnReset.addEventListener("click", function (event) {
+            function toggleLoader(state) {
+                if (state === 'show') {
+                    loaderGif.style.display = 'block';
+                    return;
+                }
+
+                loaderGif.style.display = 'none';
+            }
+
+            function showResponse(obj) {
+                responseTextarea.value = JSON.stringify(obj, null, 1);
+            }
+
+            function reset() {
                 responseTextarea.value = '';
                 changeAmountInput.value = '';
-            })
+            }
+
+            btnReset.addEventListener("click", reset)
 
             btnSend.addEventListener("click", function (event) {
-                const amount = parseFloat(changeAmountInput.value)
+                let amount = parseFloat(changeAmountInput.value)
+                if(Object.is(amount, NaN)) {
+                    alert('Amoun should be numeric');
+                    reset();
+                    return;
+                }
+
+                reset();
+                toggleLoader('show');
                 request({
-                    url: "https://jm502ytdr8.execute-api.us-west-2.amazonaws.com/dev/calculate-change",
+                    url: `${API_URL}/calculate-change`,
                     method: 'POST',
                     data: { amount }
                 }).then(resp => {
-                    responseTextarea.innerText = JSON.stringify(resp, null, 1);
-                }).catch(err => console.error(err));
+                    showResponse(resp)
+                    toggleLoader('hide');
+                }).catch(err => {
+                    showResponse(err)
+                    toggleLoader('hide');
+                });
             });
 
             btnGetBalance.addEventListener("click", function (event) {
+                reset();
+                toggleLoader('show');
                 request({
-                    url: "https://jm502ytdr8.execute-api.us-west-2.amazonaws.com/dev/balance",
+                    url: `${API_URL}/initial-balance`,
                     method: 'GET',
                 }).then(resp => {
-                    responseTextarea.innerText = JSON.stringify(resp, null, 1);
-                }).catch(err => console.error(err));
+                    showResponse(resp)
+                    toggleLoader('hide');
+                }).catch(err => {
+                    showResponse(err)
+                    toggleLoader('hide');
+                });
             });
         }
     </script>

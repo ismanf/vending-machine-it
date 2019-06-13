@@ -1,7 +1,6 @@
-import { Coin } from './Coin';
+import { InsufficientFundsError, InvalidOperationError } from '../errors';
 import { safeSubstract } from '../utils/math';
-import { InsufficientFundsError, InvalidOperationError } from './errors';
-
+import { Coin } from './Coin';
 
 export class Money {
 

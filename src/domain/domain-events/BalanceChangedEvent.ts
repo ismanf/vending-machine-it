@@ -7,10 +7,11 @@ import { events } from './events';
 @Service()
 export class BalanceChangedEvent {
 
-    @On(events.balance.changed)
-    private doSmthng(oldBalance, newBalance: Money) {
-            console.log('Reacting to balance change.')
-            console.log(`Balance changed from ${oldBalance.Amount} to ${newBalance.Amount}`);
-    }
+  @On(events.balance.changed)
+  private doSmthng(eventData: { oldBalance: Money, newBalance: Money }) {
+    const { oldBalance, newBalance } = eventData;
+    console.log('Reacting to balance change.');
+    console.log(`Balance changed from ${oldBalance.Amount} to ${newBalance.Amount}`);
+  }
 
 }

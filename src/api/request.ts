@@ -1,3 +1,3 @@
 export class ChangeInput {
-    public amount: number;
+  public amount: number;
 }
