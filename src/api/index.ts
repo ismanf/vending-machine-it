@@ -1,10 +1,12 @@
+import 'reflect-metadata';
 import { VendorMachine } from '../domain/VendorMachine';
-import { IResponse, withStatus } from './response';
+import {  withStatus } from './response';
 import { OK, BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status-codes';
 import { ChangeInput } from './request';
 import { InvalidOperationError, InsufficientFundsError } from '../domain/errors';
+import { Container } from 'typedi';
 
-const vendorMachine = new VendorMachine();
+const vendorMachine = Container.get(VendorMachine);
 vendorMachine.loadBalance();
 
 const ok = withStatus(OK);
@@ -19,7 +21,7 @@ const serverError = withStatus(INTERNAL_SERVER_ERROR);
  * 
  */
 export const getBalance = async (event) => {
-    const data = vendorMachine.loadBalance();
+    const data = vendorMachine.getBalance();
     return ok(data);
 }
 

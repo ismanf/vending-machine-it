@@ -5,4 +5,4 @@ export interface IDataSource {
     loadCoins(): Denomination[];
 }
 
-export const DataSourceToken = new Token<IDataSource>();
+export const DataSource = new Token<IDataSource>();

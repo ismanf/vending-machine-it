@@ -3,9 +3,10 @@ import { Denomination } from './dtos';
 import { Coin } from './Coin';
 import { EventDispatcher, EventDispatcherInterface } from '../decorators/EventDispatcher';
 import { events } from './domain-events/events';
-import { Inject } from 'typedi';
-import { DataSourceToken, IDataSource } from '../db/IDataSource';
+import { Inject, Service } from 'typedi';
+import { MemoryDataSource } from '../db/memory';
 
+@Service()
 export class VendorMachine {
 
     private balance: Money;
@@ -13,8 +14,9 @@ export class VendorMachine {
     @EventDispatcher()
     private eventDispatcher: EventDispatcherInterface
 
-    @Inject(DataSourceToken)
-    private dataSource: IDataSource;
+    @Inject()
+    private dataSource: MemoryDataSource;
+    
 
     public getChangeFor(amount: number): Denomination[] {
         const changeMoney = this.balance.Allocate(amount);
@@ -35,8 +37,8 @@ export class VendorMachine {
         this.balance = newBalance;
     }
 
-    public async loadBalance() {
-        const denominations = await this.dataSource.loadCoins();
+    public loadBalance() {
+        const denominations = this.dataSource.loadCoins();
         this.balance = this.denominationsToMoney(denominations);
     }
 

@@ -1,8 +1,0 @@
-getBalance:
-  handler: dist/api/index.getBalance
-  events:
-    - http: get /balance
-calculateChange:
-  handler: dist/api/index.calculateChange
-  events:
-    - http: post /calculate-change

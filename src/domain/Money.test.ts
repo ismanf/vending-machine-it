@@ -33,7 +33,7 @@ describe('Money Object', () => {
         ]
 
         fixtures.forEach(({ changeAmount, funds, expectedResult }) => {
-            it(`should return ${ expectedResult} for amout ${changeAmount} for funds: ${funds}`, () => {
+            it(`should return ${expectedResult} for amout ${changeAmount} for funds: ${funds}`, () => {
                 expect(funds.CanAllocate(changeAmount)).toBe(expectedResult);
             });
         });
@@ -73,11 +73,11 @@ describe('Money Object', () => {
     })
 
     describe('add', () => {
-        
+
     })
 
     describe('isEqual', () => {
-        
+
     })
 
 })

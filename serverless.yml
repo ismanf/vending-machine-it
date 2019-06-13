@@ -1,4 +1,4 @@
-service: change-service
+service: vendorm-machine
 
 frameworkVersion: ">=1.3.0 <2.0.0"
 
@@ -26,7 +26,38 @@ package:
     - '!src/**/*.serverless.yml'
 
 functions:
-  - '${file(dist/api/handlers.serverless.yml)}'
+  getBalance:
+    handler: dist/api/index.getBalance
+    events:
+      - http: 
+          path: /balance
+          method: get
+          cors:
+            origin: '*'
+            headers: 
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false 
+  calculateChange:
+    handler: dist/api/index.calculateChange
+    events:
+      - http:
+          path: /calculate-change
+          method: post
+          cors:
+            origin: '*'
+            headers: 
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false 
 
 plugins:
   - serverless-offline

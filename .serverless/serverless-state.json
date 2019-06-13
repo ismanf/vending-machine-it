@@ -1,8 +1,8 @@
 {
   "service": {
-    "service": "change-service",
+    "service": "vendorm-machine",
     "serviceObject": {
-      "name": "change-service"
+      "name": "vendorm-machine"
     },
     "provider": {
       "stage": "dev",
@@ -33,13 +33,13 @@
           "GetBalanceLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/change-service-dev-getBalance"
+              "LogGroupName": "/aws/lambda/vendorm-machine-dev-getBalance"
             }
           },
           "CalculateChangeLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/change-service-dev-calculateChange"
+              "LogGroupName": "/aws/lambda/vendorm-machine-dev-calculateChange"
             }
           },
           "IamRoleLambdaExecution": {
@@ -68,7 +68,7 @@
                       "-",
                       [
                         "dev",
-                        "change-service",
+                        "vendorm-machine",
                         "lambda"
                       ]
                     ]
@@ -83,10 +83,10 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/change-service-dev-getBalance:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vendorm-machine-dev-getBalance:*"
                           },
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/change-service-dev-calculateChange:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vendorm-machine-dev-calculateChange:*"
                           }
                         ]
                       },
@@ -97,10 +97,10 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/change-service-dev-getBalance:*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vendorm-machine-dev-getBalance:*:*"
                           },
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/change-service-dev-calculateChange:*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vendorm-machine-dev-calculateChange:*:*"
                           }
                         ]
                       }
@@ -113,7 +113,7 @@
                 "Fn::Join": [
                   "-",
                   [
-                    "change-service",
+                    "vendorm-machine",
                     "dev",
                     {
                       "Ref": "AWS::Region"
@@ -131,9 +131,9 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/change-service/dev/1560380561541-2019-06-12T23:02:41.541Z/change-service.zip"
+                "S3Key": "serverless/vendorm-machine/dev/1560422071849-2019-06-13T10:34:31.849Z/vendorm-machine.zip"
               },
-              "FunctionName": "change-service-dev-getBalance",
+              "FunctionName": "vendorm-machine-dev-getBalance",
               "Handler": "dist/api/index.getBalance",
               "MemorySize": 1024,
               "Role": {
@@ -150,14 +150,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "GetBalanceLambdaVersionANpphxjPFnVB2J8kXembSwrps6s78ZREKIpyc00s": {
+          "GetBalanceLambdaVersionsPjI7y3m3lK1a8QQLnmzNTZczk77R3EPBKL6KH7Vg": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetBalanceLambdaFunction"
               },
-              "CodeSha256": "fSn+XfxcLX8PNDFr7BkJhd/3o1gvUn+px30EnaX8BPI="
+              "CodeSha256": "j17O7fQo/yfz2t1FDRdJ4pw6koQEwyt338sWURlvwLQ="
             }
           },
           "CalculateChangeLambdaFunction": {
@@ -167,9 +167,9 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/change-service/dev/1560380561541-2019-06-12T23:02:41.541Z/change-service.zip"
+                "S3Key": "serverless/vendorm-machine/dev/1560422071849-2019-06-13T10:34:31.849Z/vendorm-machine.zip"
               },
-              "FunctionName": "change-service-dev-calculateChange",
+              "FunctionName": "vendorm-machine-dev-calculateChange",
               "Handler": "dist/api/index.calculateChange",
               "MemorySize": 1024,
               "Role": {
@@ -186,20 +186,20 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "CalculateChangeLambdaVersionaNONSE5RA29WwHjUfbo1u1YBG3qftqsxcQqMiyYxos": {
+          "CalculateChangeLambdaVersionCQsdnHC3DuxoWOj9UiraZFjeJX02xVQ2U4TPMvjXRts": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CalculateChangeLambdaFunction"
               },
-              "CodeSha256": "fSn+XfxcLX8PNDFr7BkJhd/3o1gvUn+px30EnaX8BPI="
+              "CodeSha256": "j17O7fQo/yfz2t1FDRdJ4pw6koQEwyt338sWURlvwLQ="
             }
           },
           "ApiGatewayRestApi": {
             "Type": "AWS::ApiGateway::RestApi",
             "Properties": {
-              "Name": "dev-change-service",
+              "Name": "dev-vendorm-machine",
               "EndpointConfiguration": {
                 "Types": [
                   "EDGE"
@@ -232,6 +232,100 @@
                 ]
               },
               "PathPart": "calculate-change",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodBalanceOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                      "method.response.header.Access-Control-Allow-Credentials": "'false'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceBalance"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodCalculateDashchangeOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
+                      "method.response.header.Access-Control-Allow-Credentials": "'false'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceCalculateDashchange"
+              },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -323,7 +417,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1560380544355": {
+          "ApiGatewayDeployment1560422052553": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -332,6 +426,8 @@
               "StageName": "dev"
             },
             "DependsOn": [
+              "ApiGatewayMethodBalanceOptions",
+              "ApiGatewayMethodCalculateDashchangeOptions",
               "ApiGatewayMethodBalanceGet",
               "ApiGatewayMethodCalculateDashchangePost"
             ]
@@ -420,13 +516,13 @@
           "GetBalanceLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetBalanceLambdaVersionANpphxjPFnVB2J8kXembSwrps6s78ZREKIpyc00s"
+              "Ref": "GetBalanceLambdaVersionsPjI7y3m3lK1a8QQLnmzNTZczk77R3EPBKL6KH7Vg"
             }
           },
           "CalculateChangeLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CalculateChangeLambdaVersionaNONSE5RA29WwHjUfbo1u1YBG3qftqsxcQqMiyYxos"
+              "Ref": "CalculateChangeLambdaVersionCQsdnHC3DuxoWOj9UiraZFjeJX02xVQ2U4TPMvjXRts"
             }
           },
           "ServiceEndpoint": {
@@ -497,10 +593,30 @@
         "handler": "dist/api/index.getBalance",
         "events": [
           {
-            "http": "get /balance"
+            "http": {
+              "path": "balance",
+              "method": "get",
+              "cors": {
+                "origin": "*",
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false,
+                "methods": [
+                  "OPTIONS",
+                  "GET"
+                ]
+              },
+              "integration": "AWS_PROXY"
+            }
           }
         ],
-        "name": "change-service-dev-getBalance",
+        "name": "vendorm-machine-dev-getBalance",
         "package": {},
         "memory": 1024,
         "timeout": 6,
@@ -511,10 +627,30 @@
         "handler": "dist/api/index.calculateChange",
         "events": [
           {
-            "http": "post /calculate-change"
+            "http": {
+              "path": "calculate-change",
+              "method": "post",
+              "cors": {
+                "origin": "*",
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false,
+                "methods": [
+                  "OPTIONS",
+                  "POST"
+                ]
+              },
+              "integration": "AWS_PROXY"
+            }
           }
         ],
-        "name": "change-service-dev-calculateChange",
+        "name": "vendorm-machine-dev-calculateChange",
         "package": {},
         "memory": 1024,
         "timeout": 6,
@@ -523,10 +659,10 @@
       }
     },
     "layers": {},
-    "artifact": "/Users/ismayilmalik/Documents/github/vending-machine-it/.serverless/change-service.zip"
+    "artifact": "/Users/ismail.niftaliev/Documents/github/vending-machine-it/.serverless/vendorm-machine.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/change-service/dev/1560380561541-2019-06-12T23:02:41.541Z",
-    "artifact": "change-service.zip"
+    "artifactDirectoryName": "serverless/vendorm-machine/dev/1560422071849-2019-06-13T10:34:31.849Z",
+    "artifact": "vendorm-machine.zip"
   }
 }

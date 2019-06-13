@@ -7,7 +7,7 @@ module.exports = {
          *  Build script
          */
         build: {
-            script: series("nps clean", "nps compile", "nps copy"),
+            script: series("nps clean", "nps compile"),
             description: "Builds application into the dist directory"
         },
 
@@ -29,22 +29,6 @@ module.exports = {
         },
 
         /**
-         *  Copy static files to dist folder
-         */
-        copy: {
-            default: {
-                script: series(
-                    `nps copy.handlersCongif`,
-                ),
-                hiddenFromHelp: true
-            },
-            handlersCongif: {
-                script: copy("./src/api/handlers.serverless.yml", "./dist"),
-                hiddenFromHelp: true
-            }
-        },
-
-        /**
          *  Package serverless
          */
         package: {
@@ -58,6 +42,16 @@ module.exports = {
         deploy: {
             script: "serverless deploy --aws-profile serverless",
             description: "Deploys serverless files"
+        },
+
+        /**
+         *  Invoke lambdas localy
+         */
+        getBalance: {
+            script: "serverless invoke local -f getBalance -p mock.json"
+        },
+        calculateChange: {
+            script: "serverless invoke local -f calculateChange -p mock.json"
         }
     }
 };

@@ -1,9 +1,9 @@
 import { Denomination } from '../domain/dtos';
 import { Coin } from '../domain/Coin';
-import { Service } from 'typedi';
-import { IDataSource, DataSourceToken } from './IDataSource';
+import { Service, Token } from 'typedi';
+import { IDataSource } from './IDataSource';
 
-@Service(DataSourceToken)
+@Service()
 export class MemoryDataSource implements IDataSource {
 
     public loadCoins(): Denomination[] {
